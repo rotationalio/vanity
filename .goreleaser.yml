@@ -1,0 +1,85 @@
+project_name: vanityd
+dist: dist
+builds:
+  # Define multiple builds as a yaml list, specify by a unique id
+  - id: "cmd-vanityd-build"
+    dir: .
+    main: ./cmd/vanityd
+    binary: vanityd
+    flags:
+      - -v
+    ldflags: -s -w -X github.com/rotationalio/vanity.GitVersion={{.Commit}} -X github.com/rotationalio/vanity.BuildDate={{.Date}}
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    goarm:
+      - "6"
+    ignore:
+      - goos: linux
+        goarch: arm64
+      - goos: darwin
+        goarch: amd64
+
+    mod_timestamp: '{{ .CommitTimestamp }}'
+
+archives:
+  - id: "vanity-archive-tgz"
+    format: tar.gz
+    builds:
+      - "cmd-vanityd-build"
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    wrap_in_directory: true
+    files:
+      - LICENSE
+      - README.md
+
+# Publish the release on GitHub
+release:
+  # Repo in which the release will be created.
+  # Default is extracted from the origin remote URL or empty if its private hosted.
+  # Valid options are either github, gitlab or gitea
+  github:
+    owner: rotationalio
+    name: vanity
+
+  # You can change the name of the release.
+  name_template: 'vanityd v{{.Version}}'
+
+  # If set to auto, will mark the release as not ready for production
+  # in case there is an indicator for this in the tag e.g. v1.0.0-rc1
+  # If set to true, will mark the release as not ready for production.
+  prerelease: auto
+
+  # Header for the release body.
+  header: |
+    [TODO: describe release]
+
+  # If set to true, will not auto-publish the release.
+  disable: false
+
+changelog:
+  filters:
+    # Commit messages matching the regexp listed here will be removed from the changelog
+    exclude:
+      - (?i)typo
+      - (?i)^f$
+
+# Store signed source code with release
+source:
+  enabled: true
+  format: 'zip'
+  name_template: '{{ .ProjectName }}_v{{ .Version }}_source'
+
+# Used to validate if downloaded files are correct
+checksum:
+  name_template: '{{ .ProjectName }}_{{ .Version }}_checksums.txt'
+  algorithm: sha256
+
+signs:
+  - artifacts: checksum
+    args: ["--batch", "-u", "{{ .Env.GPG_FINGERPRINT }}", "--output", "${signature}", "--detach-sign", "${artifact}"]
