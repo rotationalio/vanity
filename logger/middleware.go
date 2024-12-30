@@ -5,13 +5,11 @@ import (
 	"time"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/rotationalio/vanity"
 	"github.com/rotationalio/vanity/server/middleware"
 	"github.com/rs/zerolog/log"
 )
 
-func HTTPLogger(server string) middleware.Middleware {
-	version := vanity.Version()
+func HTTPLogger(server, version string) middleware.Middleware {
 	return func(next httprouter.Handle) httprouter.Handle {
 		return func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			// Before the request

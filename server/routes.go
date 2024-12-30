@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/rotationalio/vanity"
 	"github.com/rotationalio/vanity/logger"
 	"github.com/rotationalio/vanity/server/middleware"
 )
@@ -12,7 +13,7 @@ import (
 // Sets up the server's middleware and routes.
 func (s *Server) setupRoutes() (err error) {
 	middleware := []middleware.Middleware{
-		logger.HTTPLogger("vanity"),
+		logger.HTTPLogger("vanity", vanity.Version()),
 		s.Maintenance(),
 	}
 
@@ -31,6 +32,10 @@ func (s *Server) setupRoutes() (err error) {
 	s.addRoute(http.MethodGet, "/", s.HomePage(), middleware...)
 
 	// Golang Vanity Handling
+	pkg := &vanity.GoPackage{Domain: "go.rotational.io", Repository: "https://github.com/rotationalio/confire"}
+	pkg.Resolve(nil)
+	s.addRoute(http.MethodGet, "/rotationalio/confire", Vanity(pkg), middleware...)
+	s.addRoute(http.MethodGet, "/rotationalio/confire/*filepath", Vanity(pkg), middleware...)
 
 	return nil
 }
