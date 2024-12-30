@@ -4,12 +4,14 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/rotationalio/vanity/logger"
 	"github.com/rotationalio/vanity/server/middleware"
 )
 
 // Sets up the server's middleware and routes.
 func (s *Server) setupRoutes() (err error) {
 	middleware := []middleware.Middleware{
+		logger.HTTPLogger("vanity"),
 		s.Maintenance(),
 	}
 
