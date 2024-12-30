@@ -1,6 +1,7 @@
 package server
 
 import (
+	"io/fs"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
@@ -23,6 +24,13 @@ func (s *Server) setupRoutes() (err error) {
 	// API Routes
 	// Status/Heartbeat endpoint
 	s.addRoute(http.MethodGet, "/v1/status", s.Status, middleware...)
+
+	// Application Routes
+	static, _ := fs.Sub(content, "static")
+	s.router.ServeFiles("/static/*filepath", http.FS(static))
+	s.addRoute(http.MethodGet, "/", s.HomePage(), middleware...)
+
+	// Golang Vanity Handling
 
 	return nil
 }
