@@ -39,3 +39,22 @@ header div {
 .redirect {
     padding: 32px 0;
 }
+
+.packages {
+    width: 100%;
+}
+
+.packages table {
+    margin: 20px auto;
+}
+
+table {
+  text-align: left;
+  vertical-align: middle;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 0px solid black;
+  padding: 2px 10px;
+}

@@ -1,12 +1,15 @@
 package vanity
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/rotationalio/vanity/config"
+	"gopkg.in/yaml.v3"
 )
 
 const (
@@ -27,14 +30,39 @@ var validProtocols = map[string]struct{}{
 }
 
 type GoPackage struct {
-	Domain     string   `json:"-"`          // the vanity URL domain to use
-	Module     string   `json:"-"`          // the module name where go.mod is located; parsed from the repository
-	Package    string   `json:"-"`          // the full package path being requested for correct redirects
-	Protocol   string   `json:"protocol"`   // can be "git", "github", or "gogs" -- defaults to "git"
-	Repository string   `json:"repository"` // a path to the public repository starting with https://
-	Branch     string   `json:"branch"`     // the name of the default branch -- defaults to "main"
-	repo       *url.URL `json:"-"`          // the parsed repository URL
-	user       string   `json:"-"`          // the user or organization from the repository
+	Domain     string   `yaml:"-"`          // the vanity URL domain to use
+	Module     string   `yaml:"-"`          // the module name where go.mod is located; parsed from the repository
+	Package    string   `yaml:"-"`          // the full package path being requested for correct redirects
+	Protocol   string   `yaml:"protocol"`   // can be "git", "github", or "gogs" -- defaults to "git"
+	Repository string   `yaml:"repository"` // a path to the public repository starting with https://
+	Branch     string   `yaml:"branch"`     // the name of the default branch -- defaults to "main"
+	repo       *url.URL `yaml:"-"`          // the parsed repository URL
+	user       string   `yaml:"-"`          // the user or organization from the repository
+}
+
+func Load(conf *config.Config) (pkgs []*GoPackage, err error) {
+	if err = conf.Validate(); err != nil {
+		return nil, err
+	}
+
+	var f *os.File
+	if f, err = os.Open(conf.ConfigMap); err != nil {
+		return nil, fmt.Errorf("could not open %q: %w", conf.ConfigMap, err)
+	}
+	defer f.Close()
+
+	pkgs = make([]*GoPackage, 0)
+	if err = yaml.NewDecoder(f).Decode(&pkgs); err != nil {
+		return nil, fmt.Errorf("could not decode vanity urls config: %w", err)
+	}
+
+	for i, pkg := range pkgs {
+		if err = pkg.Resolve(conf); err != nil {
+			return nil, fmt.Errorf("could not resolve config %d: %w", i+1, err)
+		}
+	}
+
+	return pkgs, nil
 }
 
 func (p *GoPackage) Resolve(conf *config.Config) (err error) {
@@ -107,11 +135,14 @@ func (p *GoPackage) WithRequest(r *http.Request) GoPackage {
 }
 
 func (p GoPackage) Redirect() string {
-	return godoc.ResolveReference(
-		&url.URL{
-			Path: filepath.Join("/", p.Domain, p.Package),
-		},
-	).String()
+	var uri *url.URL
+	if p.Package != "" {
+		uri = godoc.ResolveReference(&url.URL{Path: filepath.Join("/", p.Domain, p.Package)})
+	} else {
+		uri = godoc.ResolveReference(&url.URL{Path: filepath.Join("/", p.Domain, p.Module)})
+	}
+
+	return uri.String()
 }
 
 func (p GoPackage) GoImportMeta() string {

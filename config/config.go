@@ -18,6 +18,7 @@ type Config struct {
 	Maintenance   bool                `default:"false" desc:"if true, the server will start in maintenance mode"`
 	Domain        string              `default:"" desc:"specify the domain of the vanity URLs, otherwise the request host will be used"`
 	DefaultBranch string              `split_words:"true" default:"main" desc:"specify the default branch to use for repository references"`
+	ConfigMap     string              `split_words:"true" required:"true" desc:"location of yaml file with module configurations"`
 	LogLevel      logger.LevelDecoder `split_words:"true" default:"info" desc:"specify the verbosity of logging (trace, debug, info, warn, error, fatal panic)"`
 	ConsoleLog    bool                `split_words:"true" default:"false" desc:"if true logs colorized human readable output instead of json"`
 	BindAddr      string              `split_words:"true" default:":3264" desc:"the ip address and port to bind the server on"`

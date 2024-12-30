@@ -19,5 +19,27 @@
       <h1 class="text-white">Rotational Go Packages</h1>
     </div>
   </header>
+
+  <div class="packages">
+    <table>
+      <thead>
+        <tr>
+          <th>Module</th>
+          <th>Import</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ range . }}
+        <tr>
+          <td>{{ .Module }}</td>
+          <td><a href="{{ .GoDoc }}">{{ .Import }}</a></td>
+          <td><a href="{{ .Source }}">{{ .Source }}</a></td>
+        </tr>
+        {{ end }}
+      </tbody>
+    </table>
+  </div>
+
 </body>
 </html>
