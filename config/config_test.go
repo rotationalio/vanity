@@ -10,10 +10,13 @@ import (
 )
 
 var testEnv = map[string]string{
-	"VANITY_MAINTENANCE": "true",
-	"VANITY_LOG_LEVEL":   "debug",
-	"VANITY_CONSOLE_LOG": "true",
-	"VANITY_BIND_ADDR":   "127.0.0.1:443",
+	"VANITY_MAINTENANCE":    "true",
+	"VANITY_DOMAIN":         "go.example.com",
+	"VANITY_DEFAULT_BRANCH": "develop",
+	"VANITY_CONFIG_MAP":     "path/to/vanity.yaml",
+	"VANITY_LOG_LEVEL":      "debug",
+	"VANITY_CONSOLE_LOG":    "true",
+	"VANITY_BIND_ADDR":      "127.0.0.1:443",
 }
 
 func TestConfig(t *testing.T) {
@@ -27,6 +30,9 @@ func TestConfig(t *testing.T) {
 
 	// Ensure configuration is correctly set from the environment
 	require.True(t, conf.Maintenance)
+	require.Equal(t, testEnv["VANITY_DOMAIN"], conf.Domain)
+	require.Equal(t, testEnv["VANITY_DEFAULT_BRANCH"], conf.DefaultBranch)
+	require.Equal(t, testEnv["VANITY_CONFIG_MAP"], conf.ConfigMap)
 	require.Equal(t, zerolog.DebugLevel, conf.GetLogLevel())
 	require.True(t, conf.ConsoleLog)
 	require.Equal(t, testEnv["VANITY_BIND_ADDR"], conf.BindAddr)

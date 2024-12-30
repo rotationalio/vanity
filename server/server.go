@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/rotationalio/vanity"
 	"github.com/rotationalio/vanity/config"
 	"github.com/rotationalio/vanity/logger"
 	"github.com/rs/zerolog"
@@ -58,6 +59,12 @@ func New(conf config.Config) (s *Server, err error) {
 		log.Logger = zerolog.New(console).With().Timestamp().Logger()
 	}
 
+	// Load the vanity URLs from the config map
+	var pkgs []*vanity.GoPackage
+	if pkgs, err = vanity.Load(&conf); err != nil {
+		return nil, err
+	}
+
 	// Create the server and prepare to serve.
 	s = &Server{
 		conf: conf,
@@ -69,7 +76,7 @@ func New(conf config.Config) (s *Server, err error) {
 	s.router.RedirectFixedPath = true
 	s.router.HandleMethodNotAllowed = true
 	s.router.RedirectTrailingSlash = true
-	if err = s.setupRoutes(); err != nil {
+	if err = s.setupRoutes(pkgs); err != nil {
 		return nil, err
 	}
 

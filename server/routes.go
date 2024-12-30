@@ -11,7 +11,7 @@ import (
 )
 
 // Sets up the server's middleware and routes.
-func (s *Server) setupRoutes() (err error) {
+func (s *Server) setupRoutes(pkgs []*vanity.GoPackage) (err error) {
 	middleware := []middleware.Middleware{
 		logger.HTTPLogger("vanity", vanity.Version()),
 		s.Maintenance(),
@@ -29,14 +29,13 @@ func (s *Server) setupRoutes() (err error) {
 	// Application Routes
 	static, _ := fs.Sub(content, "static")
 	s.router.ServeFiles("/static/*filepath", http.FS(static))
-	s.addRoute(http.MethodGet, "/", s.HomePage(), middleware...)
+	s.addRoute(http.MethodGet, "/", s.HomePage(pkgs), middleware...)
 
 	// Golang Vanity Handling
-	pkg := &vanity.GoPackage{Domain: "go.rotational.io", Repository: "https://github.com/rotationalio/confire"}
-	pkg.Resolve(nil)
-	s.addRoute(http.MethodGet, "/rotationalio/confire", Vanity(pkg), middleware...)
-	s.addRoute(http.MethodGet, "/rotationalio/confire/*filepath", Vanity(pkg), middleware...)
-
+	for _, pkg := range pkgs {
+		s.addRoute(http.MethodGet, "/"+pkg.Module, Vanity(pkg), middleware...)
+		s.addRoute(http.MethodGet, "/"+pkg.Module+"/*filepath", Vanity(pkg), middleware...)
+	}
 	return nil
 }
 
