@@ -12,11 +12,11 @@ import (
 	"time"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/rotationalio/vanity"
-	"github.com/rotationalio/vanity/config"
-	"github.com/rotationalio/vanity/logger"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"go.rtnl.ai/vanity"
+	"go.rtnl.ai/vanity/config"
+	"go.rtnl.ai/vanity/logger"
 )
 
 func init() {

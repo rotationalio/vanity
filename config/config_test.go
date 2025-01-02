@@ -4,9 +4,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/rotationalio/vanity/config"
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/require"
+	"go.rtnl.ai/vanity/config"
 )
 
 var testEnv = map[string]string{

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/rotationalio/vanity/server/middleware"
 	"github.com/rs/zerolog/log"
+	"go.rtnl.ai/vanity/server/middleware"
 )
 
 func HTTPLogger(server, version string) middleware.Middleware {

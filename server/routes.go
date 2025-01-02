@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/rotationalio/vanity"
-	"github.com/rotationalio/vanity/logger"
-	"github.com/rotationalio/vanity/server/middleware"
+	"go.rtnl.ai/vanity"
+	"go.rtnl.ai/vanity/logger"
+	"go.rtnl.ai/vanity/server/middleware"
 )
 
 // Sets up the server's middleware and routes.

@@ -5,9 +5,9 @@ import (
 	"net/url"
 	"testing"
 
-	. "github.com/rotationalio/vanity"
-	"github.com/rotationalio/vanity/config"
 	"github.com/stretchr/testify/require"
+	. "go.rtnl.ai/vanity"
+	"go.rtnl.ai/vanity/config"
 )
 
 type expected struct {

@@ -16,7 +16,7 @@ ARG TARGETARCH
 RUN update-ca-certificates
 
 # Use modules for dependencies
-WORKDIR $GOPATH/src/github.com/rotationalio/vanity
+WORKDIR $GOPATH/src/go.rtnl.ai/vanity
 
 COPY go.mod .
 COPY go.sum .
@@ -31,7 +31,7 @@ COPY . .
 
 # Build binary
 RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build \
-    -ldflags="-X 'github.com/rotationalio/vanity.GitVersion=${GIT_REVISION}'" \
+    -ldflags="-X 'go.rtnl.ai/vanity.GitVersion=${GIT_REVISION}'" \
     -o /go/bin/vanityd \
     ./cmd/vanityd
 

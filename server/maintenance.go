@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/rotationalio/vanity"
-	"github.com/rotationalio/vanity/server/middleware"
-	"github.com/rotationalio/vanity/server/render"
+	"go.rtnl.ai/vanity"
+	"go.rtnl.ai/vanity/server/middleware"
+	"go.rtnl.ai/vanity/server/render"
 )
 
 // If the server is in maintenance mode, aborts the current request and renders the

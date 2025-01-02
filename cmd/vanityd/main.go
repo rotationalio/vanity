@@ -5,9 +5,9 @@ import (
 	"os"
 	"text/tabwriter"
 
-	pkg "github.com/rotationalio/vanity"
-	"github.com/rotationalio/vanity/config"
-	"github.com/rotationalio/vanity/server"
+	pkg "go.rtnl.ai/vanity"
+	"go.rtnl.ai/vanity/config"
+	"go.rtnl.ai/vanity/server"
 
 	"github.com/joho/godotenv"
 	confire "github.com/rotationalio/confire/usage"

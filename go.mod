@@ -1,4 +1,4 @@
-module github.com/rotationalio/vanity
+module go.rtnl.ai/vanity
 
 go 1.23.3
 

@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/rotationalio/vanity/config"
+	"go.rtnl.ai/vanity/config"
 	"gopkg.in/yaml.v3"
 )
 

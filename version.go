@@ -11,10 +11,10 @@ const (
 	VersionReleaseNumber = 1
 )
 
-// Set the GitVersion via -ldflags="-X 'github.com/rotationalio/vanity.GitVersion=$(git rev-parse --short HEAD)'"
+// Set the GitVersion via -ldflags="-X 'go.rtnl.ai/vanity.GitVersion=$(git rev-parse --short HEAD)'"
 var GitVersion string
 
-// Set the BuildDate via -ldflags="-X github.com/rotationalio/vanity.BuildDate=YYYY-MM-DD"
+// Set the BuildDate via -ldflags="-X go.rtnl.ai/vanity.BuildDate=YYYY-MM-DD"
 var BuildDate string
 
 // Version returns the semantic version for the current build.

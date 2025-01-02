@@ -8,7 +8,7 @@ builds:
     binary: vanityd
     flags:
       - -v
-    ldflags: -s -w -X github.com/rotationalio/vanity.GitVersion={{.Commit}} -X github.com/rotationalio/vanity.BuildDate={{.Date}}
+    ldflags: -s -w -X go.rtnl.ai/vanity.GitVersion={{.Commit}} -X go.rtnl.ai/vanity.BuildDate={{.Date}}
     env:
       - CGO_ENABLED=0
     goos:

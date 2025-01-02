@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
-	"github.com/rotationalio/vanity"
+	"go.rtnl.ai/vanity"
 )
 
 //go:embed all:templates

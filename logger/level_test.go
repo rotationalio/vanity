@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/rotationalio/vanity/logger"
+	"go.rtnl.ai/vanity/logger"
 
 	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/require"

@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/rotationalio/confire"
-	"github.com/rotationalio/vanity/logger"
 	"github.com/rs/zerolog"
+	"go.rtnl.ai/vanity/logger"
 )
 
 // All environment variables will have this prefix unless otherwise defined in struct

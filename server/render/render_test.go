@@ -7,8 +7,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/rotationalio/vanity/server/render"
 	"github.com/stretchr/testify/require"
+	"go.rtnl.ai/vanity/server/render"
 )
 
 func TestText(t *testing.T) {
