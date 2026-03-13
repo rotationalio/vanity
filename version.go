@@ -5,10 +5,10 @@ import "fmt"
 // Version component constants for the current build.
 const (
 	VersionMajor         = 1
-	VersionMinor         = 1
+	VersionMinor         = 2
 	VersionPatch         = 0
 	VersionReleaseLevel  = ""
-	VersionReleaseNumber = 2
+	VersionReleaseNumber = 3
 )
 
 // Set the GitVersion via -ldflags="-X 'go.rtnl.ai/vanity.GitVersion=$(git rev-parse --short HEAD)'"
