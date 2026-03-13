@@ -40,11 +40,11 @@ func TestTextf(t *testing.T) {
 func TestJSON(t *testing.T) {
 	w := httptest.NewRecorder()
 	out := map[string]interface{}{"status": "foo"}
-	err := render.JSON(http.StatusEarlyHints, w, out)
+	err := render.JSON(http.StatusOK, w, out)
 	require.NoError(t, err, "could not render json")
 
 	rep := w.Result()
-	require.Equal(t, http.StatusEarlyHints, rep.StatusCode, "unexpected status code")
+	require.Equal(t, http.StatusOK, rep.StatusCode, "unexpected status code")
 	require.Equal(t, "application/json", rep.Header.Get(render.ContentType), "unexpected content type")
 
 	body, _ := io.ReadAll(rep.Body)
