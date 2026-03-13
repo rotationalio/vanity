@@ -14,15 +14,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
-          go-version: 1.23.x
+          go-version: 1.25.x
 
       - name: Install Staticcheck
-        run: go install honnef.co/go/tools/cmd/staticcheck@2024.1.1
+        run: go install honnef.co/go/tools/cmd/staticcheck@2026.1
 
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Lint Go Code
         run: staticcheck ./...
@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        go-version: [1.22.x, 1.23.x]
+        go-version: [1.25.x, 1.26.x]
     env:
       GOPATH: ${{ github.workspace }}/go
       GOBIN: ${{ github.workspace }}/go/bin
@@ -43,12 +43,12 @@ jobs:
         working-directory: ${{ env.GOPATH }}/src/go.rtnl.ai/vanity
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go-version }}
 
       - name: Cache Speedup
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.GOPATH }}/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -56,7 +56,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.GOPATH }}/src/go.rtnl.ai/vanity
 
@@ -77,12 +77,12 @@ jobs:
         working-directory: ${{ env.GOPATH }}/src/go.rtnl.ai/vanity
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
-          go-version: 1.23.x
+          go-version: 1.25.x
 
       - name: Cache Speedup
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.GOPATH }}/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -90,7 +90,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.GOPATH }}/src/go.rtnl.ai/vanity
 
